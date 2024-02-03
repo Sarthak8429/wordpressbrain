@@ -26,7 +26,7 @@ jobs:
 
       - name: Sync project files to AWS
         run: |
-          rsync -avz --backup --backup-dir='/home/ubuntu/backup' ${GITHUB_WORKSPACE}/ ubuntu@${{ secrets.AWS_SERVER_IP }}:/var/www/html/wordpress
+          rsync -avz --backup --backup-dir='/home/ubuntu/backup' ${GITHUB_WORKSPACE}/ ubuntu@${{ secrets.AWS_SERVER_IP }}:/var/www/html
 
       - name: Restart Nginx on AWS
         run: |
