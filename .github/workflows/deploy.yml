@@ -22,7 +22,7 @@ jobs:
         run: echo "${{ secrets.AWS_SSH_KEY }}" > /home/ubuntu/.ssh/id_rsa && chmod 600 /home/ubuntu/.ssh/id_rsa
 
       - name: Add SSH host to known_hosts
-        run: ssh-keyscan -H ${{ secrets.AWS_SERVER_IP }} >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ${{ secrets.AWS_SERVER_IP }} >> /home/ubuntu.ssh/known_hosts
 
       - name: Sync project files to AWS
         run: |
