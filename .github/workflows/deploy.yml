@@ -14,17 +14,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Copy SSH private key
-        run: echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+        run: echo "${{ secrets.AWS_SSH_KEY }}" > /home/ubuntu/.ssh/id_rsa && chmod 600 /home/ubuntu/.ssh/id_rsa
 
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y rsync
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y rsync
-
+    
       - name: Sync project files to AWS
         run: |
           rsync -avz --exclude='.git'  --backup --backup-dir='/home/ubuntu/backup' ${GITHUB_WORKSPACE}/ ubuntu@${{ secrets.AWS_SERVER_IP }}:/var/www/html/wordpress/
