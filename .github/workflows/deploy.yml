@@ -38,5 +38,5 @@ jobs:
       env:
         RSYNC_FLAGS: '' #--dry-run
         SSH_HOST: 13.201.155.79
-        DESTINATION: "/var/www/html/"
+        DESTINATION: "/home/ubuntu/"
  
