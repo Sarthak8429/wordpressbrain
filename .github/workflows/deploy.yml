@@ -19,7 +19,7 @@ jobs:
           sudo apt-get install -y rsync
 
       - name: Write SSH key to file
-        run: echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+        run: echo "${{ secrets.AWS_SSH_KEY }}" > /home/ubuntu/.ssh/id_rsa && chmod 600 /home/ubuntu/.ssh/id_rsa
 
       - name: Add SSH host to known_hosts
         run: ssh-keyscan -H ${{ secrets.AWS_SERVER_IP }} >> ~/.ssh/known_hosts
