@@ -1,15 +1,32 @@
-- name: Run a one-line script
-  run: echo Hello, world
+name: Deploy to AWS
 
-# Setting up SSH
+on:
+  push:
+    branches:
+      - master
 
-- name: Setup SSH agent
-  uses: webfactory/ssh-agent@v0.4.0
-  with:
-    ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-- name: Setup known_hosts
-  run: echo '${{ secrets.SSH_HOST }}' >> ~/.ssh/known_hosts
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-- name: Sync project files
-  run: rsync -uvzr --backup --backup-dir='/home/ubuntu/' ${{ secrets.SSH_LOCATION }}
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.4.0
+        with:
+          ssh-private-key: ${{ secrets.AWS_SSH_KEY }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync
+
+      - name: Sync project files to AWS
+        run: |
+          rsync -avz --exclude='.git'  --backup --backup-dir='/home/ubuntu/backup' ${GITHUB_WORKSPACE}/ ubuntu@${{ secrets.AWS_SERVER_IP }}:/var/www/html/wordpress/
+
+      - name: Restart Nginx on AWS
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.AWS_SSH_KEY }} ubuntu@${{ secrets.AWS_SERVER_IP }} 'sudo systemctl restart nginx'
