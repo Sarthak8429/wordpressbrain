@@ -37,6 +37,6 @@ jobs:
       run: "rsync --delete -avO ${{ env.RSYNC_FLAGS }} --exclude-from=${{ env.EXCLUDES }} ./ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:${{ env.DESTINATION }}"
       env:
         RSYNC_FLAGS: '' #--dry-run
-        SSH_HOST: sarthak.serveblog.net
+        SSH_HOST: AWS
         DESTINATION: "/var/www/html/"
  
