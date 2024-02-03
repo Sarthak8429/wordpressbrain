@@ -10,8 +10,8 @@ on:
       - master
  
 jobs:
-  deploy_aws:
-    name: Deploy to AWS
+  deploy_vps:
+    name: Deploy to VPS
     runs-on: ubuntu-latest
  
     steps:
@@ -37,6 +37,6 @@ jobs:
       run: "rsync --delete -avO ${{ env.RSYNC_FLAGS }} --exclude-from=${{ env.EXCLUDES }} ./ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:${{ env.DESTINATION }}"
       env:
         RSYNC_FLAGS: '' #--dry-run
-        SSH_HOST: 13.201.155.79
+        SSH_HOST: cloudways
         DESTINATION: "/home/ubuntu/"
  
